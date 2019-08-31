@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="create_article" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>New_article</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<body>
+{#插入导航栏#}
+{% include 'navigate_templates.html' %}
+{#插入面板#}
+{#引入 副文本编译器#}
+
+<div class="panel panel-danger">
+    <div class="panel-heading">创建新文章</div>
+    <div class="panel-body">
+        {#使用form表单提交数据#}
+        <form action="/alter_article/" method="post">
+            {% csrf_token %}
+            <input type="text" name="article_id" id="article_id" value="{{ alter_article.aid }}" style="display: none">
+            <input type="text" name="articledetail_id" id="articledetail_id" value="{{ alter_articledetail.aid }}" style="display: none">
+            <div class="col-sm-4 col-sm-offset-3">
+                <label for="article_title">文章标题</label>
+                <input type="text" name="article_title" id="article_title" class="form-control" value="{{ alter_article.title }}">
+            </div>
+            <div class="col-sm-4 col-sm-offset-3">
+                <label for="article_content">内容</label>
+                <textarea name="article_content" id="article_content" >{{ alter_articledetail.content }}</textarea>
+            </div>
+            <div class="col-sm-4 col-sm-offset-3">
+                <input type="submit" id="submit" value="提交" class="btn btn-default">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script charset="utf-8" src="/static/kindeditor/kindeditor-all-min.js"></script>
+<script>
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#article_content', {
+            width: '600px',
+            height: '500px',
+            uploadJson: '/article_media/',
+            filePostName: 'new_image',
+            extraFileUploadParams: {
+                "csrfmiddlewaretoken": $("input[name = 'csrfmiddlewaretoken']").val()
+            }
+        });
+    });
+</script>
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+{#    导航条与主页标题间距#}
+<style>
+    {#    导航条与主页标题间距#}
+    .navbar {
+        margin-bottom: 0;
+    }
+</style>
+</body>
+</html>

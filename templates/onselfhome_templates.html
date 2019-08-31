@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{#定义个人主页母板  侧边栏 分类便签等 右边栏用块隔开需要时添加 {% block  'exercise' %} 内容 {% endblock %}#}
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/sweetalert.css">
+
+</head>
+<body>
+{#插入导航条组件#}
+{% include 'navigate_templates.html' %}
+
+{#插入个人主页标题头#}
+{% block head %}
+
+{% endblock %}
+
+{#划分个人主页分区 3 - 7#}
+<div class="row">
+    {#规划左边栏 3#}
+    <div class="col-xs-3 col-sm-3">
+        <div class="panel panel-warning">
+            <div class="panel-heading">文章分类</div>
+            <div class="panel-body">
+                {% for cate in category %}
+                    <div>
+                        <a href="">{{ cate.title }}({{ cate.c }})</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="panel panel-danger">
+            <div class="panel-heading">文章标签</div>
+            <div class="panel-body">
+                {% for ta in tag %}
+                    <div>
+                        <a href="">{{ ta.title }}({{ ta.c }})</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">时间归档</div>
+            <div class="panel-body">
+                {% for dat in date %}
+                    <a href="">{{ dat.c }}({{ dat.con }})</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {#规划右边栏 7#}
+    <div class="col-xs-7 col-sm-7">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+</div>
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/static/sweetalert.min.js"></script>
+<script src="/static/AjaxPostPatch.js"></script>
+
+<style>
+    {#    导航条与主页标题间距#}
+    .navbar {
+        margin-bottom: 0;
+    }
+</style>
+<script>
+    $(".edit_article").on("click", function () {
+        $.ajax({
+            url: '/edit_article/',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                edit_article_id: $(this).attr("edit_article_id")
+            },
+            success: function (data) {
+                alert(data)
+            }
+        })
+    });
+    $(".delete_article").on("click", function () {
+        $.ajax({
+            url: '/delete_article/',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                delete_article_id: $(this).attr("delete_article_id")
+            },
+            success: function (data) {
+                if (data.state == 0) {
+                    alert('删除成功');
+                    location.reload()
+                }
+                else{
+                    alert("操作失败")
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

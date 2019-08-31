@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>BBS</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/sweetalert.css">
+    <style>
+        body {
+            background-color: #eeeeee
+        }
+
+        .my_Spacing {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+{#导入导航框#}
+{% include 'navigate_templates.html' %}
+
+{#规划首页页面 2 - 8 - 2#}
+<div class="row">
+    {#    左侧规划2#}
+    <div class="col-xs-2 col-sm-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">广告页1</div>
+            <div class="panel-body">
+                广告
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">广告页2</div>
+            <div class="panel-body">
+                广告2
+            </div>
+        </div>
+    </div>
+    {#    中间规划8#}
+    <div class="col-xs-8 col-sm-8">
+        {#    循环文章表把文章展示出来#}
+        {% for art in article_obj %}
+            <div style="margin-bottom: 30px">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="">
+                            <img class="media-object" src="/media/{{ art.user.avatar }}" alt="..."
+                                 style="height: 80px ;width: 80px">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading"><a href="/bbs/{{ art.user.username }}/{{ art.articledetail.aid }}">{{ art.title }}</a></h4>
+                        <p>&nbsp;&nbsp;{{ art.desc }}</p>
+                    </div>
+                </div>
+                <div>
+                    <a class="my_Spacing" href="/bbs/{{ art.user.username }}"><span>{{ art.user.username }}</span></a>
+                    <span class="my_Spacing">发布于:{{ art.create_time|date:"Y-m-d H:i:s" }}</span>
+                    <span class="my_Spacing"><i class="fa fa-commenting-o" aria-hidden="true"></i>评论({{ art.comment_count }})</span>
+                    <span class="my_Spacing"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>点赞({{ art.up_count }})</span>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+    {#    右侧规划2#}
+    <div class="col-xs-2 col-sm-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">广告页1</div>
+            <div class="panel-body">
+                广告
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">广告页2</div>
+            <div class="panel-body">
+                广告2
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/static/sweetalert.min.js"></script>
+<script src="/static/AjaxPostPatch.js"></script>
+</body>
+</html>

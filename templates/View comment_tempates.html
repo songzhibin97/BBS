@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>View comment_templates</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/sweetalert.css">
+
+</head>
+<body>
+{#评论树清除浮动clear#}
+{#<div class="clear"></div>#}
+{#<div class="row comment_tree">#}
+{#    <h3>评论树</h3>#}
+{#</div>#}
+<div class="clear"></div>
+<h3>评论列表</h3>
+<div id="comment_list">
+    {% for con in comment %}
+        <ul class="list-group">
+            <li class="list-group-item ">
+                <a href="/bbs/{{ con.user.username }}" class="find_name">{{ con.user.username }}</a>
+                评论时间:{{ con.create_time }}
+                <a href="#tbCommentBody" id="{{ con.cid }}" class="jump_tbCommentBody">回复</a>
+                <div><span id="my_content">{{ con.content }} </span></div>
+            </li>
+        </ul>
+    {% endfor %}
+</div>
+
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/static/sweetalert.min.js"></script>
+<script src="/static/AjaxPostPatch.js"></script>
+<script>
+{#评论树 BUG 无法继承AJAX后面请求添加进入标签的事件#}
+    {#$.ajax({#}
+    {#        url: '/comment_tree/',#}
+    {#        type: 'post',#}
+    {#        dataType: 'json',#}
+    {#        data: {#}
+    {#            article_id: '{{ comment.0.article_id }}'#}
+    {#        },#}
+    {#        success: function (data) {#}
+    {#            $.each(data, function (i, v) {#}
+    {#                if (v.parent_comment_id) {#}
+    {#                    var sun_label = '<div><a href="/bbs/' + v.user__username + '" class="find_name" style="padding: 10px">' + v.user__username + '</a>' +#}
+    {#                        '评论时间:' + v.create_time +#}
+    {#                        '<a href="#tbCommentBody" id="' + v.cid + '" class="jump_tbCommentBody" style="padding: 10px">回复</a>' +#}
+    {#                        '<div id = sun_' + v.cid + '><span id="my_content">' + v.content + '</span></div></div>';#}
+    {#                    $("#sun_" + v.parent_comment_id).append(sun_label)#}
+    {##}
+    {##}
+    {#                }#}
+    {#                else {#}
+    {#                    var label = '<div class = "father_comment"><ul class="list-group">' +#}
+    {#                        '<li class="list-group-item ">' +#}
+    {#                        '<a href="/bbs/' + v.user__username + '" class="find_name" style="padding: 10px">' + v.user__username + '</a>' +#}
+    {#                        '评论时间:' + v.create_time +#}
+    {#                        '<a href="#tbCommentBody" id="' + v.cid + '" class="jump_tbCommentBody" style="padding: 10px">回复</a>' +#}
+    {#                        '<div id = sun_' + v.cid + '><span id="my_content">' + v.content + '</span></div>' +#}
+    {#                        '</li></ul></div>';#}
+    {#                    #}
+    {#                    $(".comment_tree").append(label)#}
+    {#                }#}
+    {#            })#}
+    {#        }#}
+    {#    }#}
+    {#);#}
+    var sub_comment = 0;
+    $(".jump_tbCommentBody").on('click', $(".father_comment"), function () {
+        sub_comment = $(this).attr('id');
+        var name = $(this).parent().parent().find(".find_name").text();
+        $("#tbCommentBody").val("@" + name + '\n');
+    });
+</script>
+
+
+</body>
+</html>

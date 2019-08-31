@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>praise_templates</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/sweetalert.css">
+    <style>
+        {#推荐样式#}
+        .diggit {
+            float: left;
+            width: 46px;
+            height: 52px;
+            background: url("/static/upup.gif") no-repeat;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 2px;
+            padding-top: 5px;
+        }
+
+        {#踩样式#}
+        .buryit {
+            float: right;
+            margin-left: 20px;
+            width: 46px;
+            height: 52px;
+            background: url("/static/downdown.gif") no-repeat;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 2px;
+            padding-top: 5px;
+        }
+
+        {# 赞踩全局样式#}
+        #div_digg {
+            float: right;
+            margin-bottom: 10px;
+            margin-right: 30px;
+            font-size: 12px;
+            width: 125px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="div_digg">
+    <div class="diggit">
+        <span class="diggnum" id="digg_count">{{ articledetail.article.up_count }}</span>
+    </div>
+    <div class="buryit">
+        <span class="burynum" id="bury_count">{{ articledetail.article.down_count }}</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword text-danger" id="digg_tips">
+    </div>
+</div>
+
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/static/sweetalert.min.js"></script>
+<script src="/static/AjaxPostPatch.js"></script>
+
+</body>
+</html>

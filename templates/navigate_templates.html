@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>navigate_templates</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<body>
+{#制作导航条组件#}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        {#左侧#}
+        <div class="navbar-header">
+            {#            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"#}
+            {#                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">#}
+            {#                <span class="sr-only">Toggle navigation</span>#}
+            {#                <span class="icon-bar"></span>#}
+            {#                <span class="icon-bar"></span>#}
+            {#                <span class="icon-bar"></span>#}
+            {#            </button>#}
+            <a class="navbar-brand" href=""><i class="fa fa-chrome fa-lg" aria-hidden="true"></i>&nbsp;Bin_BBS</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/home/"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;首页</a></li>
+                <li><a href=""><i class="fa fa-star-half-o" aria-hidden="true"></i>&nbsp;更多精彩</a></li>
+            </ul>
+            {#右侧#}
+            {% if request.user.username %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href=""><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;<span
+                            class="text-muted">{{ request.user.username }}</span></a></li>
+                    <li><a href="/create_article/"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增博客</a></li>
+                    <li><a href="/bbs/{{ request.user.username }}"><i class="fa fa-universal-access" aria-hidden="true"></i>&nbsp;个人主页</a></li>
+                    <li><a href="/logout/"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;注销</a></li>
+                </ul>
+            {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login/"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;登录</a></li>
+                    <li><a href="/enrol/"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;注册</a></li>
+                </ul>
+            {% endif %}
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

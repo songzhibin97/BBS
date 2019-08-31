@@ -1,0 +1,54 @@
+{#继承母板#}
+{% extends 'onselfhome_templates.html' %}
+{#插入标题#}
+{% block title %}
+    {{ user_obj.username }}的个人主页
+{% endblock %}
+{#插入页头#}
+{% block head %}
+    <div class="row" style="background-color: rgb(248,248,248)">
+        <div class="page-header text-center">
+            <h1>{{ user_obj.username }}的个人主页
+                <small>&copy;www.welcomebinhome.club&reg;</small>
+            </h1>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <h1>内容</h1>
+    {% for art in article %}
+        <div style="margin-bottom: 30px" id="{{ art.aid }}">
+            <div class="media">
+                <div class="media-left">
+                    <a href="">
+                        <img class="media-object" src="/media/{{ art.user.avatar }}" alt="..."
+                             style="height: 80px ;width: 80px">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading"><a
+                            href="/bbs/{{ art.user.username }}/{{ art.articledetail.aid }}">{{ art.title }}</a>
+                    </h4>
+                    <p>&nbsp;&nbsp;{{ art.desc }}</p>
+                </div>
+            </div>
+            {% if user_obj.username == request.user.username %}
+            <div class="row">
+                {#插入编辑删除按钮#}
+                <form action="/edit_article/" method="post">
+                    {% csrf_token %}
+                    <input type="text" class="edit_article " style="display: none " name="edit_article_id"
+                           value="{{ art.aid }}">
+                    <input type="submit" name="button" value="编辑" class="btn btn-link btn-sm col-sm-2 col-sm-offset-8">
+                </form>
+                <span><button class="btn btn-link btn-sm delete_article col-sm-2"
+                              delete_article_id="{{ art.aid }}">删除</button></span>
+            </div>
+            {% endif %}
+            <div>
+                <a class="my_Spacing" href="/bbs/{{ art.user.username }}"><span>{{ art.user.username }}</span></a>
+                <span class="my_Spacing ">发布于:{{ art.create_time|date:"Y-m-d H:i:s" }}</span>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

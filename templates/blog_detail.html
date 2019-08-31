@@ -1,0 +1,65 @@
+{#继承母板#}
+{% extends 'onselfhome_templates.html' %}
+{#插入标题#}
+{% block title %}
+    {{ articledetail.article.title }}
+{% endblock %}
+{#插入文章内容#}
+{% block content %}
+    {{ articledetail.content|safe }}
+    {#如果用户登录 插入点赞踩块#}
+    {% if request.user.username %}
+        {% include 'praise_templates.html' %}
+        <script>
+            $(".diggit,.buryit").on("click", function () {
+                var user = JSON.stringify('{{ request.user }}');
+                var art = JSON.stringify('{{ articledetail.article.aid }}');
+                var praise = $(this).hasClass("diggit");
+                $.ajax({
+                    url: '/praise/',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        user: user,
+                        art: art,
+                        praise: praise
+                    },
+                    success: function (data) {
+                        if (data.state == 1) {
+                            if (data.updown == true) {
+                                var num = parseInt($(".diggnum").text())
+                                $(".diggnum").text(num + 1)
+                            }
+                            else {
+                                var num2 = parseInt($(".burynum").text())
+                                $(".burynum").text(num2 + 1)
+                            }
+                        }
+                        else {
+                            if (data.clue == true) {
+                                $("#digg_tips").text("您已经赞过了")
+                            }
+                            else {
+                                $("#digg_tips").text("您已经踩过了")
+                            }
+                        }
+                        var t = setTimeout('$("#digg_tips").text("")', 30000)
+                    }
+                })
+            })
+        </script>
+    {% endif %}
+    {#插入评论内容#}
+    {% include 'View comment_tempates.html' %}
+    {#如果登录 可以评论#}
+    {% if  request.user.username %}
+        {% include 'comment_templates.html' %}
+    {% else %}
+        <br><br><br>
+        <div class="col-sm-4 col-sm-offset-4">
+        <p><a href="/login/">登录</a>或<a href="/enrol/">注册</a>即可评论</p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+

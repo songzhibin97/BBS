@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>comment_templates</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/sweetalert.css">
+    <style>
+        #commentform_title {
+            background-image: url('/static/icon_addcomment.gif');
+            background-repeat: no-repeat;
+            padding: 0 0 0 25px;
+            margin-bottom: 10px;
+        }
+
+        div textarea.comment_textarea {
+            line-height: 1.6;
+        }
+
+        div textarea {
+            width: 450px;
+            height: 300px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            font-family: 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body>
+{#插入评论界面#}
+<div class="clear"></div>
+<div class="row">
+    <div id="commentform_title">发表评论</div>
+    <p>
+        昵称：<input type="text" id="tbCommentAuthor" class="author" disabled="disabled" size="50"
+                  value="{{ request.user.username }}">
+    </p>
+    <div class="commentbox_main">
+        <div class="commentbox_title">
+            <div class="commentbox_title_left">评论内容：</div>
+        </div>
+        <div class="clear"></div>
+        <textarea id="tbCommentBody" class="comment_textarea"></textarea>
+    </div>
+    <p id="commentbox_opt">
+        <input id="btn_comment_submit" type="button" class="comment_btn" value="提交评论">
+    </p>
+</div>
+
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/static/sweetalert.min.js"></script>
+<script src="/static/AjaxPostPatch.js"></script>
+<script>
+
+    $("#btn_comment_submit").on("click", function () {
+        var comment_id = '{{ articledetail.article.aid }}';
+        var user_id = '{{ request.user.uid }}';
+        var content = $("#tbCommentBody").val();
+
+        $.ajax({
+            url: '/comment/',
+            type: "post",
+            datatype: 'json',
+            data: {
+                sub_comment: sub_comment,
+                comment_id: comment_id,
+                user_id: user_id,
+                content: content
+            },
+            success: function (data) {
+                sub_comment = 0;
+                $("#tbCommentBody").val('');
+                if (data.state == 0) {
+                    alert('评论成功');
+                    location.reload()
+                }
+                else {
+                    alert('评论失败')
+                }
+
+            }
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>reply</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/sweetalert.css">
+</head>
+<body>
+{#导入导航框#}
+{% include 'navigate_templates.html' %}
+<div class="alert alert-success" role="alert" ><h3>{{ success_fail }}</h3></div>
+
+
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/static/sweetalert.min.js"></script>
+<script src="/static/AjaxPostPatch.js"></script>
+<style>
+    {#    导航条与主页标题间距#}
+    .navbar {
+        margin-bottom: 0;
+    }
+</style>
+</body>
+</html>
